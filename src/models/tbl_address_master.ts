@@ -1,7 +1,7 @@
 'use strict';
 import { Model, DataTypes, Sequelize } from 'sequelize';
 module.exports = (sequelize:any, DataTypes:any) => {
-  class tbl_user_master extends Model {
+  class tbl_address_master extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,24 +9,22 @@ module.exports = (sequelize:any, DataTypes:any) => {
      */
     static associate(models:any) {
       // define association here
-      this.hasOne(models.tbl_address_master,{
+      this.belongsTo(models.tbl_user_master,{
         foreignKey:'user_id',
         as:'addresses'
       })
     }
   }
-  tbl_user_master.init({
-    first_name: DataTypes.INTEGER,
-    last_name: DataTypes.STRING,
-    email: DataTypes.STRING,
-    mobile: DataTypes.STRING,
-    dob: DataTypes.STRING,
-    education: DataTypes.STRING,
-    is_active: DataTypes.BOOLEAN,
-    created_at: DataTypes.DATE
+  tbl_address_master.init({
+    address: DataTypes.STRING,
+    address_1: DataTypes.STRING,
+    pincode: DataTypes.STRING,
+    district_id: DataTypes.INTEGER,
+    state_id: DataTypes.INTEGER,
+    user_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'tbl_user_master',
+    modelName: 'tbl_address_master',
   });
-  return tbl_user_master;
+  return tbl_address_master;
 };
