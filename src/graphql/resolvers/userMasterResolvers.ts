@@ -53,6 +53,36 @@ const userMasterResolvers = {
         throw new Error(error.message);
       }
     },
+    getUserDetails: async (_: any, __: any) => {
+      try {
+        const users = await db.tbl_user_master.findAll({
+          logging: false,
+          include: [
+            {
+              model: db.tbl_address_master,
+              as: "addresses", // Ensure this matches the alias in the Sequelize association
+              include:[
+                {
+                  model:db.tbl_district_master,
+                  as:'district'
+                }
+              ]
+            },
+          ],
+        });
+
+        // Ensure 'addresses' is always an array for one to many required another wise not need
+        // const processedUsers = users.map((user: any) => ({
+        //   ...user.toJSON(),
+        //   addresses: [user.addresses], // Ensure 'addresses' is always an array, // Return an empty array if no addresses found
+        // }));
+        console.log("modify", users);
+        return users;
+      } catch (error: any) {
+        console.error("Error in user -> address relationship:", error);
+        throw new Error(error.message);
+      }
+    },
     getUserMaster: async (_: any, args: { id: string }) => {
       return await db.tbl_user_master.findOne({
         where: {

@@ -20,7 +20,14 @@ type Address {
   user_id: Int!
   user: User!
 }
-
+type District {
+  id: ID!
+  district_name: String!
+}
+type State {
+  id: ID!
+  state_name: String!
+}
 type UserWithAddress {
   id: ID!
   first_name: String!
@@ -35,11 +42,32 @@ type UserWithOneAddress {
   email: String!
   addresses: Address! # One to One Relationship
 }
+type AddressDetails {
+  id: ID!
+  address: String!
+  address_1: String!
+  pincode: String!
+  state_id: Int!
+  district_id: Int!
+  user_id: Int!
+ 
+  # addresses: Address! # One to One Relationship
+  district: District! # One to One Relationship
+  state: State! # One to One Relationship
+}
+type UserDetails {
+  id: ID!
+  first_name: String!
+  last_name: String!
+  email: String!
+  addresses: AddressDetails! # One to One Relationship
+}
   type Query{
     getUserMasters:[UserMaster]
     getUserMaster(id: ID!): UserMaster
     getUserWithAddress:[UserWithAddress] # for relationship one to many user-> address
     getUserWithOneAddress:[UserWithOneAddress] # for relationship one to one 
+    getUserDetails:[UserDetails] # for relationship one to one 
   }
 
   type Mutation{

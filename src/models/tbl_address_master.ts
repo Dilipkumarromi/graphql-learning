@@ -13,6 +13,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
         foreignKey:'user_id',
         as:'addresses'
       })
+      this.hasOne(models.tbl_district_master,{
+        foreignKey:'id',
+        as:'district'
+      })
     }
   }
   tbl_address_master.init({

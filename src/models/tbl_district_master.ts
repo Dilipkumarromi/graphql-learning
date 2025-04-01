@@ -9,6 +9,10 @@ module.exports = (sequelize:any, DataTypes:any) => {
      */
     static associate(models:any) {
       // define association here
+      this.belongsTo(models.tbl_address_master,{
+        foreignKey:'id',
+        as:'district'
+      })
     }
   }
   tbl_district_master.init({
