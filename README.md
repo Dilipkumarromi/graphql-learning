@@ -127,3 +127,54 @@ type UserWithAddress {
   email: String!
   addresses: [Address]! # Relationship with multiple addresses required one to many other wise not getting join data 
 }
+
+# Key Differences Between args and context:
+Feature	->Purpose -> args -> Holds query/mutation-specific input arguments	
+Feature	->Scope -> args ->Limited to the specific resolver		
+Feature	->Example -> args ->args.id for query variables	
+const resolvers = {
+  Query: {
+    getUser: async (_, args) => {
+      const userId = args.id; // Accessing the 'id' argument
+      return User.findByPk(userId); // Example with Sequelize
+    }
+  }
+};
+
+# Context:-
+Feature	->Purpose -> Context -> Holds shared, request-specific data
+Feature	->Purpose -> Context -> Shared across all resolvers
+Feature	->Purpose -> Context -> context.user for authenticated user info
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: ({ req }) => {
+    const token = req.headers.authorization || '';
+    const user = verifyToken(token); // Decode or verify token (example)
+    return { user }; // Attach user info to the context
+  }
+});
+
+const resolvers = {
+  Query: {
+    getUser: async (_, args, context) => {
+      const currentUser = context.user; // Access the user from the context
+      console.log('Authenticated User:', currentUser);
+
+      // Example: Restrict access based on user info
+      if (!currentUser) {
+        throw new Error('Unauthorized');
+      }
+
+      return User.findByPk(args.id);
+    }
+  }
+};
+
+
+
+
+              
+
+ 
