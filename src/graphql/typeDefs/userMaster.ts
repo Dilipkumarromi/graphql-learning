@@ -1,4 +1,3 @@
-
 const userMasterTypes = `#graphql
 type UserMaster {
     id: Int
@@ -68,6 +67,7 @@ type UserDetails {
     getUserWithAddress:[UserWithAddress] # for relationship one to many user-> address
     getUserWithOneAddress:[UserWithOneAddress] # for relationship one to one 
     getUserDetails:[UserDetails] # for relationship one to one 
+    getUserWithPaging(limit: Int!, offset: Int!, order: [[String]]!, where: String!):[UserDetails] # for relationship one to one with paging
   }
 
   type Mutation{

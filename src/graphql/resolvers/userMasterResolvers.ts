@@ -90,6 +90,11 @@ const userMasterResolvers = {
         },
       });
     },
+    getUserWithPaging: async (_: any, args:any) => {
+      console.log("args",args)
+      const paging= await db.tbl_user_master.findOne();
+      return paging
+    },
   },
   Mutation: {
     // create user master
