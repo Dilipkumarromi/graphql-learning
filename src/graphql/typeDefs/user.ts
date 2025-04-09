@@ -5,6 +5,7 @@ const userTypeDefs = `#graphql
     name: String!
     email: String
     products: [Product] # Relationship with Product
+    token:String
     
   }
   
