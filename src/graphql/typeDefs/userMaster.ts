@@ -62,6 +62,7 @@ type UserDetails {
   addresses: AddressDetails! # One to One Relationship
 }
   type Query{
+    getUserWithToken(id: ID!): UserMaster
     getUserMasters:[UserMaster]
     getUserMaster(id: ID!): UserMaster
     getUserWithAddress:[UserWithAddress] # for relationship one to many user-> address

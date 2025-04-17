@@ -1,4 +1,5 @@
 import db from "../../models/index";
+import verifyUser from "../middleware/authorize";
 const userMasterResolvers = {
   Query: {
     getUserMasters: async () => {
@@ -95,6 +96,19 @@ const userMasterResolvers = {
       const paging= await db.tbl_user_master.findOne();
       return paging
     },
+    // token base access
+    getUserWithToken:async(_:any,args:{id:string}, context: { token: string })=>{
+      const token:any=await verifyUser(context.token)
+      if(!(token?.status===200)){
+        throw new Error('Unauthorized access: No token provided');
+      }
+      return await db.tbl_user_master.findOne({
+        logging:false,
+        where: {
+          id: args?.id,
+        },
+      });
+    }
   },
   Mutation: {
     // create user master
